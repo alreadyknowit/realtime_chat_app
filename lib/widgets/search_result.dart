@@ -25,7 +25,7 @@ class SearchResult extends StatelessWidget {
         print('chat room map: ' + chatRoomMap.toString());
         dynamic result = await _db.createChatRoom(chatRoomId, chatRoomMap);
         print(" result is :" + result.toString());
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => ChatRoom(chatRoomId: chatRoomId,)));
       } else {
         print('you cannot send message yourself');

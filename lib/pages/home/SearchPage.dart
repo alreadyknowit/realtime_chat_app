@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:realtime_chat_app/pages/home/chat_room.dart';
-import 'package:realtime_chat_app/models/user.dart';
 import 'package:realtime_chat_app/services/database.dart';
 import 'package:realtime_chat_app/widgets/loading.dart';
 import 'package:realtime_chat_app/widgets/search_result.dart';
@@ -14,43 +12,28 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   DatabaseService _db = DatabaseService();
   TextEditingController _controller = TextEditingController();
-  String text = "SEARCH FOR USER";
-  bool isLoading = false;
-  QuerySnapshot _snapshot;
+  String text = "SEARCH FOR";
+
+  QuerySnapshot snapshot;
   getUserFromFirestore() {
     _db.getUserByUsername(_controller.text).then((val) {
-      if (val != null) setState(() => _snapshot = val);
+      if (val != null) setState(() => snapshot = val);
       if (val == null)
         setState(() {
           print('result null');
         });
     });
   }
-/*
-  createChatRoomAndStartConversation(String username){
-    if(username != Constants.signedUserName){
-      String chatRoomId = getChatRoomId(username, Constants.signedUserName);
-      List<String> users = [username, Constants.signedUserName];
-      Map<String, dynamic> chatRoomMap = {
-        'users': users,
-        'chat_room_id':chatRoomId
-      };
-      print("Chat room map is"+ chatRoomMap.toString());
-      _db.createChatRoom(chatRoomId,chatRoomMap);
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>ChatRoom(chatRoomId: chatRoomId,)));
-    }else{ print('you cannot send message yourself'); }
-  }*/
- // createChatRoom: createChatRoomAndStartConversation(_snapshot.documents[index].data['username']),
   buildUserList() {
-    return _snapshot != null
+    return snapshot != null
         ? SingleChildScrollView(
           child: ListView.builder(
               shrinkWrap: true,
-              itemCount: _snapshot.documents.length,
+              itemCount: snapshot.documents.length,
               itemBuilder: (context, index) {
                 return SearchResult(
-                  username: _snapshot.documents[index].data['username'],
-                  bio: _snapshot.documents[index].data['bio'],
+                  username: snapshot.documents[index].data['username'],
+                  bio: snapshot.documents[index].data['bio'],
                 );
               }),
         )
@@ -94,7 +77,7 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
           ),
-          isLoading ? Loading() : buildUserList(),
+          buildUserList(),
         ],
       ))),
     );
