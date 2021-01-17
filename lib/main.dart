@@ -6,12 +6,13 @@ import 'package:realtime_chat_app/services/shared_preference_functions.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isLoggedIn = false;
+   bool isLoggedIn = false;
   @override
   initState(){
     getLoggedInState();

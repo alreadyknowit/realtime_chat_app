@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                           color: Colors.white,
                           ),
-                          decoration: myDecoration('Email')),
+                          decoration: myDecoration('EMAIL')),
                     ),
                   ),
                   Padding(
@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white,
                         ),
                         obscureText: true,
-                        decoration: myDecoration('Password'),
+                        decoration: myDecoration('PASSWORD'),
                       ),
                     ),
                   ),
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       alignment: Alignment.bottomRight,
                       height: 50,
-                      width: MediaQuery.of(context).size.width,
+                //      width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(

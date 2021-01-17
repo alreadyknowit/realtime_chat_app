@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:realtime_chat_app/models/user.dart';
 import 'package:realtime_chat_app/services/database.dart';
-
+import 'package:realtime_chat_app/widgets/message_tile_for_chatroom.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
@@ -14,17 +14,50 @@ class _ChatRoomState extends State<ChatRoom> {
   DatabaseService _db = DatabaseService();
   TextEditingController _controller = TextEditingController();
   String message;
+  Stream chatStream;
 
-  storeMessageToDB(){
-    if(_controller.text.isNotEmpty)
-    {
-        Map<String,String> messageMap ={
-          "message":_controller.text,
-          "sender": Constants.signedUserName,
-       //   "time_send": DateTime.
-        };
-        _db.storeMessages(widget.chatRoomId, messageMap);
+  Widget chatMessage() {
+    print('method called');
+    return StreamBuilder(
+        stream: chatStream,
+        builder: (context, snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, index) {
+                    return MessageTile(
+                        message: snapshot.data.documents[index].data["message"],
+                        isSenderConstant:
+                            snapshot.data.documents[index].data["sender"] ==
+                                Constants.signedUserName);
+                  })
+              : Container();
+        });
+  }
+
+  storeMessageToDB() {
+    if (_controller.text.isNotEmpty) {
+      Map<String, dynamic> messageMap = {
+        "message": _controller.text,
+        "sender": Constants.signedUserName,
+        "time_send": DateTime.now().millisecondsSinceEpoch,
+      };
+      _db.storeMessages(widget.chatRoomId, messageMap);
     }
+  }
+
+  @override
+  void initState() {
+    _db.getMessages(widget.chatRoomId).then((val) {
+      setState(() {
+        if (val != null)
+          chatStream = val;
+        else
+          print("val is null : " + val.toString());
+      });
+    });
+
+    super.initState();
   }
 
   @override
@@ -38,6 +71,7 @@ class _ChatRoomState extends State<ChatRoom> {
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         child: Stack(
           children: [
+            chatMessage(),
             Container(
               alignment: Alignment.bottomCenter,
               child: Row(
@@ -66,8 +100,9 @@ class _ChatRoomState extends State<ChatRoom> {
                       child: FlatButton(
                           onPressed: () {
                             storeMessageToDB();
+                            setState(() =>_controller.text =" ");
                             },
-                            child: Icon(
+                          child: Icon(
                             Icons.send,
                             color: Colors.deepPurpleAccent,
                           )))
@@ -80,3 +115,5 @@ class _ChatRoomState extends State<ChatRoom> {
     );
   }
 }
+
+
