@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:realtime_chat_app/models/chat.dart';
 
 class DatabaseService {
   //get user by username to use in the search page
@@ -42,8 +43,21 @@ class DatabaseService {
     return  Firestore.instance.
     collection('chat_rooms').document(chatRoomId)
         .collection('chat').orderBy('time_send',descending: true)
-        .limit(1);
-  }
+        .limit(1).getDocuments();
+  }/*
+  Stream<Chat> chat(String chatRoomId) {
+    return  Firestore.instance.
+    collection('chat_rooms').document(chatRoomId)
+        .collection('chat').orderBy('time_send',descending: false)
+        .limit(1)
+        .snapshots()
+        .map<Chat>((snapshot) {
+          if(snapshot.documents.length>0){
+            return snapshot.documents. map((e) => Chat.fromSnapshot(e)).single;
+          }
+
+            return null;
+    });*/
 
 //store messages to db
   storeMessages(String chatRoomId, messageMap) {

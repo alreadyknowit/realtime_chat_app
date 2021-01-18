@@ -35,6 +35,9 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   change_app_package_name: ^0.1.2
   shared_preferences: ^0.5.7
+  google_nav_bar: ^3.2.0
+  line_icons: ^0.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

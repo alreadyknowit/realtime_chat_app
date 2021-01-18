@@ -1,3 +1,4 @@
+import 'package:realtime_chat_app/models/user.dart';
 import 'package:realtime_chat_app/services/auth.dart';
 import 'package:realtime_chat_app/pages/home/home_page.dart';
 import 'package:realtime_chat_app/services/database.dart';
@@ -34,6 +35,7 @@ class _NewUserState extends State<NewUser> {
       };
       SharedPreferenceFunctions.saveUserEmailSharedPreference(email);
       SharedPreferenceFunctions.saveUserNameSharedPreference(username);
+      SharedPreferenceFunctions.saveSharedPreferenceUserBio(bio);
       dynamic result = await _auth.registerEmail(
           email, password);
       if (result != null) {
@@ -44,12 +46,12 @@ class _NewUserState extends State<NewUser> {
             MaterialPageRoute(
                 builder: (context) => Home()));
       }
-
       if (result == null)
         setState(() {
           error = "Email already in use";
           isLoading = false;
         });
+      print(Constants.signedUserName);
     }
   }
 

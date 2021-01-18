@@ -7,8 +7,7 @@ class Chats extends StatelessWidget {
   final String username;
   final String chatRoomId;
   final String last_message;
-  final String user_image;
-  Chats({this.username, this.chatRoomId, this.last_message, this.user_image});
+  Chats({this.username, this.chatRoomId, this.last_message});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -5,4 +5,5 @@ User({this.userID});
 
 class Constants{
   static String signedUserName= "";
+  static String bio="";
 }

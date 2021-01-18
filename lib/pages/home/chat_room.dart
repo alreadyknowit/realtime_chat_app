@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:realtime_chat_app/models/user.dart';
 import 'package:realtime_chat_app/services/database.dart';
+
 import 'package:realtime_chat_app/widgets/message_tile_for_chatroom.dart';
+import 'package:realtime_chat_app/widgets/user_info_for_chat_room_appbar.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
@@ -66,6 +68,9 @@ class _ChatRoomState extends State<ChatRoom> {
       backgroundColor: Color(0xff41295a),
       appBar: AppBar(
         backgroundColor: Color(0xff2F0743),
+        actions: [
+            SenderInfo()
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),

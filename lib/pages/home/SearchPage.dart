@@ -25,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
   buildUserList() {
-    return snapshot != null
+    return snapshot !=null
         ? SingleChildScrollView(
           child: ListView.builder(
               shrinkWrap: true,
@@ -37,7 +37,7 @@ class _SearchPageState extends State<SearchPage> {
                 );
               }),
         )
-        : Loading();
+        : Container();
   }
 
   @override
@@ -83,8 +83,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 }
-//TODO: This method create two separate chatRooms if the usernames first letter is same
-//Function to create a unique chat_room id
+
 getChatRoomId(String a, String b) {
   if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
     return "$b\_$a";
