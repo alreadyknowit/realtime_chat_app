@@ -4,7 +4,8 @@ import 'package:realtime_chat_app/pages/authentication/login.dart';
 import 'package:realtime_chat_app/pages/home/home_page.dart';
 import 'package:realtime_chat_app/services/auth.dart';
 import 'package:realtime_chat_app/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:realtime_chat_app/services/shared_preference_functions.dart';
+
 
 class SettingsUI extends StatelessWidget {
   @override
@@ -25,6 +26,8 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   DatabaseService _db = DatabaseService();
   String username = Constants.signedUserName;
+  TextEditingController bioController, nameController, locationController;
+
   bool showPassword = false;
   @override
   Widget build(BuildContext context) {
@@ -68,6 +71,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     Container(
                       width: 130,
                       height: 130,
+                      child: CircleAvatar(
+                        backgroundColor:Color(0xff5384d4),
+                        child: Text('${Constants.signedUserName}'.substring(0,1).toUpperCase(),
+                          style: TextStyle(fontSize: 55),
+                        ),
+                      ),
                       decoration: BoxDecoration(
                           border: Border.all(
                               width: 4,
@@ -82,7 +91,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           shape: BoxShape.circle,
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/profile/profile.jpg'))),
+                              image: AssetImage('assets/profile/profile.jpg')
+                          )),
                     ),
                     Positioned(
                         bottom: 0,
@@ -123,9 +133,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Name", " ", false),
-              buildTextField("Bio", "${Constants.bio} ", false),
-              buildTextField("Location", " ", false),
+              buildTextField("Name", "${Constants.name} ", false, nameController),
+              buildTextField("Bio", "${Constants.bio} ", false, bioController),
+              buildTextField("Location", " ${Constants.location}", false,locationController),
               SizedBox(
                 height: 35,
               ),
@@ -144,8 +154,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginPage()), (route) => false);
-                        SharedPreferences sp = await SharedPreferences.getInstance();
-                        sp.clear();
+                      //  SharedPreferences sp = await SharedPreferences.getInstance();/
+                      //  sp.clear();
+
                         },
                       child: Text("SIGN OUT",
                           style: TextStyle(
@@ -156,7 +167,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   RaisedButton(
                     onPressed: () {
+                    setState(() {
 
+                    //  print("Bio controller is:" +bioController.text);
+                   SharedPreferenceFunctions.saveSharedPreferenceUserBio(bioController.text) ;
+                     SharedPreferenceFunctions.saveSharedPreferenceUserFullName(nameController.text);
+                   SharedPreferenceFunctions.saveSharedPreferenceUserLocation(locationController.text);
+                    });
                     },
                     color: Colors.deepPurple,
                     padding: EdgeInsets.symmetric(horizontal: 50),
@@ -184,10 +201,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
+      String labelText, String placeholder, bool isPasswordTextField, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
+        controller: controller,
         style: TextStyle(color: Colors.white),
         obscureText: isPasswordTextField ? showPassword : false,
         decoration: InputDecoration(

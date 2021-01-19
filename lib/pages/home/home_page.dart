@@ -28,6 +28,9 @@ class _HomeState extends State<Home> {
               ? ListView.builder(
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) {
+                    /*print(snapshot
+                        .data.documents[index].data[snapshot.data.documents[index]
+                        .data['chat_room_id'].toString());*/
                     return Chats(
                       username: snapshot.data.documents[index]
                           .data["chat_room_id"] // return chat_room id
@@ -39,8 +42,7 @@ class _HomeState extends State<Home> {
                       last_message: _db
                           .getLastMessage(snapshot
                               .data.documents[index].data[snapshot.data.documents[index]
-                                  .data['chat_room_id'].toString()]
-                              .toString()).toString()
+                                  .data['chat_room_id'].toString()]).toString()
                     );
                   })
               : Container();
@@ -86,7 +88,7 @@ class _HomeState extends State<Home> {
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilePage()));
                 },
-                child: myContainer()),
+                child: myContainer(Constants.signedUserName)),
           ],
         ),
         body: Container(

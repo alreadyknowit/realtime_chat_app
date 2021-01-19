@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:realtime_chat_app/services/database.dart';
-import 'package:realtime_chat_app/widgets/loading.dart';
 import 'package:realtime_chat_app/widgets/search_result.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,7 +11,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   DatabaseService _db = DatabaseService();
   TextEditingController _controller = TextEditingController();
-  String text = "SEARCH FOR";
+  String text = "SEARCH FOR...";
 
   QuerySnapshot snapshot;
   getUserFromFirestore() {

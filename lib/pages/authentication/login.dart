@@ -72,11 +72,15 @@ class _LoginPageState extends State<LoginPage> {
                       width: MediaQuery.of(context).size.width,
                       child: TextFormField(
                           validator: (val) => !isEmail(val) ? 'Invalid email!' : null,
-                          onChanged:(val)=> email=val,    
+
+                          onChanged:(val)=> email=val,
+                      //    initialValue: ,
                           style: TextStyle(
                           color: Colors.white,
+
                           ),
-                          decoration: myDecoration('EMAIL')),
+                          decoration: myDecoration('EMAIL')
+                      ),
                     ),
                   ),
                   Padding(

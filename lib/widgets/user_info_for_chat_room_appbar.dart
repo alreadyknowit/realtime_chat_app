@@ -9,7 +9,7 @@ class SenderInfo extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10, ),
       child: Row(
         children: [
-          myContainer(),
+          myContainer(username),
           SizedBox(width: 10,),
           usernameText('$username'),
         ],

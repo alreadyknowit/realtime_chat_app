@@ -36,7 +36,7 @@ class SearchResult extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 24),
       child: Row(
         children: [
-          myContainer(),
+          myContainer(username),
           SizedBox(width: 10,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -39,9 +39,9 @@ class DatabaseService {
         .snapshots();
   }
 //get last message
- getLastMessage(String chatRoomId) {
+ getLastMessage(QuerySnapshot chatRoomId) {
     return  Firestore.instance.
-    collection('chat_rooms').document(chatRoomId)
+    collection('chat_rooms').document(chatRoomId.toString())
         .collection('chat').orderBy('time_send',descending: true)
         .limit(1).getDocuments();
   }/*
